@@ -1,0 +1,19 @@
+<mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ getCount() }} resultados:</mat-card-title>
+    </mat-card-header>
+  <mat-card-content>
+  <mat-list>
+    <a mat-list-item *ngFor="let launch of launches" >
+      <mat-icon matListIcon>launch</mat-icon>
+      <h3 matLine>
+        {{ launch.name }}
+      </h3>
+      <div matLine>        
+        <i> At {{ launch.location.name }} On {{ launch.net }}</i>
+      </div>
+      <mat-divider></mat-divider>
+    </a>
+  </mat-list>
+  </mat-card-content>
+</mat-card>
