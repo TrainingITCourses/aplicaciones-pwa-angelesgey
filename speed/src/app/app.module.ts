@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { SearchComponent } from './search/search.component';
 import { SearchResultComponent } from './search-result/search-result.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SearchFilterComponent } from './search-filter/search-filter.component';
 
 import {
   MatButtonModule,
@@ -18,7 +19,7 @@ import {
   MatSelectModule,
   MatCardModule
 } from '@angular/material';
-import { SearchFilterComponent } from './search-filter/search-filter.component';
+
 
 @NgModule({
   declarations: [

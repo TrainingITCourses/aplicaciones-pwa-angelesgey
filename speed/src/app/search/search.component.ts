@@ -4,6 +4,7 @@ import { Launch } from '../store/models/launch';
 import { Agency } from '../store/models/agency';
 import { Mission } from '../store/models/mission';
 import { Status } from '../store/models/status';
+import { GlobalStoreService, GlobalSlideTypes } from '../store/global-store.service';
 
 @Component({
   selector: 'app-search',
@@ -18,15 +19,36 @@ export class SearchComponent implements OnInit {
   public launchStatus: Status[];
   public launchesResult: Launch[];
 
-  constructor(private dataService: DataService) { 
-   }
+  constructor(private global : GlobalStoreService, private dataService: DataService) { }
 
-  ngOnInit() { 
-    this.launches = this.dataService.launches;
-    this.agencies = this.dataService.agencies;
-    this.missionTypes = this.dataService.missionTypes;
-    this.launchStatus = this.dataService.launchStatus;
-    this.launchesResult = this.launches;
+  ngOnInit() {     
+    // se subscribe a los cambios en launches
+    this.observeLaunches();
+    // se cargan los filtros de busqueda
+    this.loadData();
+  }
+
+  private loadData() {
+    this.dataService.getLaunches();
+    this.dataService.getLaunchStatuses();
+    this.dataService.getAgencies();
+    this.dataService.getMissionTypes();
+    this.launchesResult = this.global.getSnapShot(GlobalSlideTypes.launches);
+  }
+
+  private observeLaunches () {
+    this.global
+      .select$(GlobalSlideTypes.launches)
+      .subscribe(launches => (this.launches = launches));
+    this.global
+      .select$(GlobalSlideTypes.launchStatuses)
+      .subscribe(statuses => (this.launchStatus = statuses));
+    this.global
+      .select$(GlobalSlideTypes.agencies)
+      .subscribe(agencies => (this.agencies = agencies));
+    this.global
+      .select$(GlobalSlideTypes.missionTypes)
+      .subscribe(missionTypes => (this.missionTypes = missionTypes));
   }
 
   onSearch = (p) => {

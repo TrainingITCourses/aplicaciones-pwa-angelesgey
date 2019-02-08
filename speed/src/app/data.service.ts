@@ -3,26 +3,89 @@ import LaunchesJson from '../assets/data/launches.json';
 import LaunchStatusJson from '../assets/data/launchstatus.json';
 import AgenciesJson from '../assets/data/agencies.json';
 import MissionTypesJson from '../assets/data/missiontypes.json';
+import { GlobalStoreService } from './store/global-store.service';
+import { Launch } from './store/models/launch';
+import { Agency } from './store/models/agency';
+import { Mission } from './store/models/mission';
+import { Status } from './store/models/status';
+import { LoadLaunches, LoadLaunchStatuses, LoadAgencies, LoadMissionTypes } from './store/global-store.actions';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  public launches;
-  public launchStatus;
-  public agencies;
-  public missionTypes;
+  private launchesKey = 'launches';
+  private launchStatusesKey = 'launchStatuses';
+  private agenciesKey = 'agencies';
+  private missionTypesKey = 'missionTypes';
 
-  constructor() { 
+  constructor(private globalStore : GlobalStoreService) { }
 
-    console.log('Reading local json files');
-    console.log(LaunchesJson);
-    this.launches = LaunchesJson.launches;
-    this.launchStatus = LaunchStatusJson.types;
-    this.agencies = AgenciesJson.agencies;
-    this.missionTypes = MissionTypesJson.types;
-
+  /* 
+   * Obtiene los launches del fichero JSON si no estan todavia almacenados en local
+   * y lanza el la accion LoadLaunches con dispatch del store para actualizar el estado
+   * y notificar a los subscriptores
+   */
+  public getLaunches = () => {
+    const localLaunches = localStorage.getItem(this.launchesKey);
+    if(localLaunches) {
+      this.globalStore.dispatch(new LoadLaunches(JSON.parse(localLaunches)));
+    } else {
+      const launches = LaunchesJson.launches;
+      localStorage.setItem(this.launchesKey, JSON.stringify(launches));
+      this.globalStore.dispatch(new LoadLaunches(launches));
+    }
   }
 
+  /* 
+   * Obtiene los status del fichero JSON si no estan todavia almacenados en local
+   * y lanza el la accion LoadLaunchStatuses con dispatch del store para actualizar el estado
+   * y notificar a los subscriptores
+   */
+  public getLaunchStatuses = () => {
+    const localLaunchStatuses = localStorage.getItem(this.launchStatusesKey);
+    console.log("localLaunchStatuses " + localLaunchStatuses);
+    if(localLaunchStatuses) {
+      this.globalStore.dispatch(new LoadLaunchStatuses(JSON.parse(localLaunchStatuses)));
+    } else {
+      const launchStatuses = LaunchStatusJson.types;
+      localStorage.setItem(this.launchStatusesKey, JSON.stringify(launchStatuses));
+      this.globalStore.dispatch(new LoadLaunchStatuses(launchStatuses));
+    }
+  }
+
+  /* 
+   * Obtiene las agencies del fichero JSON si no estan todavia almacenados en local
+   * y lanza el la accion LoadAgencies con dispatch del store para actualizar el estado
+   * y notificar a los subscriptores
+   */
+  public getAgencies = () => {
+    const localAgencies = localStorage.getItem(this.agenciesKey);
+    console.log("localAgencies " + localAgencies);
+    if(localAgencies) {
+      this.globalStore.dispatch(new LoadAgencies(JSON.parse(localAgencies)));
+    } else {
+      const agencies = AgenciesJson.agencies;
+      localStorage.setItem(this.agenciesKey, JSON.stringify(agencies));
+      this.globalStore.dispatch(new LoadAgencies(agencies));
+    }
+  }
+
+  /* 
+   * Obtiene las missions del fichero JSON si no estan todavia almacenados en local
+   * y lanza el la accion LoadMissionTypes con dispatch del store para actualizar el estado
+   * y notificar a los subscriptores
+   */
+  public getMissionTypes = () => {
+    const localMissionTypes = localStorage.getItem(this.missionTypesKey);
+    console.log("localMissionTypes " + localMissionTypes);
+    if(localMissionTypes) {
+      this.globalStore.dispatch(new LoadMissionTypes(JSON.parse(localMissionTypes)));
+    } else {
+      const missions = MissionTypesJson.types;
+      localStorage.setItem(this.missionTypesKey, JSON.stringify(missions));
+      this.globalStore.dispatch(new LoadMissionTypes(missions));
+    }
+  }
 }
