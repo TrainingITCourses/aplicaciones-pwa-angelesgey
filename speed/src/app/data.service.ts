@@ -24,7 +24,7 @@ export class DataService {
 
   /* 
    * Obtiene los launches del fichero JSON si no estan todavia almacenados en local
-   * y lanza el la accion LoadLaunches con dispatch del store para actualizar el estado
+   * y lanza la accion LoadLaunches con dispatch del store para actualizar el estado
    * y notificar a los subscriptores
    */
   public getLaunches = () => {
@@ -39,8 +39,8 @@ export class DataService {
   }
 
   /* 
-   * Obtiene los status del fichero JSON si no estan todavia almacenados en local
-   * y lanza el la accion LoadLaunchStatuses con dispatch del store para actualizar el estado
+   * Obtiene los statuses del fichero JSON si no estan todavia almacenados en local
+   * y lanza la accion LoadLaunchStatuses con dispatch del store para actualizar el estado
    * y notificar a los subscriptores
    */
   public getLaunchStatuses = () => {
@@ -57,7 +57,7 @@ export class DataService {
 
   /* 
    * Obtiene las agencies del fichero JSON si no estan todavia almacenados en local
-   * y lanza el la accion LoadAgencies con dispatch del store para actualizar el estado
+   * y lanza la accion LoadAgencies con dispatch del store para actualizar el estado
    * y notificar a los subscriptores
    */
   public getAgencies = () => {
@@ -74,7 +74,7 @@ export class DataService {
 
   /* 
    * Obtiene las missions del fichero JSON si no estan todavia almacenados en local
-   * y lanza el la accion LoadMissionTypes con dispatch del store para actualizar el estado
+   * y lanza la accion LoadMissionTypes con dispatch del store para actualizar el estado
    * y notificar a los subscriptores
    */
   public getMissionTypes = () => {
