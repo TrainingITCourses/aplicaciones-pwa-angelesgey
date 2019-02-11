@@ -22,11 +22,10 @@ export class SearchComponent implements OnInit {
   constructor(private global : GlobalStoreService, private dataService: DataService) { }
 
   ngOnInit() {  
-    // se cargan los filtros de busqueda
-    this.loadData();   
     // se subscribe a los cambios en las listas
     this.observeLaunchesLists();
-    
+    // se cargan los filtros de busqueda
+    this.loadData();       
   }
 
   private loadData() {
