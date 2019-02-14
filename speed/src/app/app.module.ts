@@ -19,6 +19,10 @@ import {
   MatSelectModule,
   MatCardModule
 } from '@angular/material';
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './reducers';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 
 @NgModule({
@@ -40,7 +44,9 @@ import {
     MatSidenavModule,
     MatToolbarModule,
     MatSelectModule,
-    MatCardModule
+    MatCardModule,
+    StoreModule.forRoot(reducers, { metaReducers }),
+    !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   providers: [],
   bootstrap: [AppComponent]
