@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../data.service';
 import { Launch } from '../store/models/launch';
 import { Agency } from '../store/models/agency';
 import { Mission } from '../store/models/mission';
@@ -10,7 +9,6 @@ import { LoadLaunches } from '../reducers/launch/launch.actions';
 import { LoadMissions } from '../reducers/mission/mission.actions';
 import { LoadAgencies } from '../reducers/agency/agency.actions';
 import { LoadStatuses } from '../reducers/status/status.actions';
-//import { GlobalStoreService, GlobalSlideTypes } from '../store/global-store.service';
 
 @Component({
   selector: 'app-search',
@@ -42,15 +40,6 @@ export class SearchComponent implements OnInit {
     this.store.dispatch(new LoadAgencies());
   }
 
-  /*
-  private loadData() {
-    this.dataService.getLaunches();
-    this.dataService.getLaunchStatuses();
-    this.dataService.getAgencies();
-    this.dataService.getMissionTypes();
-    this.launchesResult = this.store
-  }*/
-
   private observeLaunchesLists() {
     this.store.select('launch').subscribe(launchState => {
       this.launches = launchState.launches;
@@ -60,22 +49,6 @@ export class SearchComponent implements OnInit {
     this.store.select('status').subscribe(statusState => this.launchStatus = statusState.statuses);
     this.store.select('agency').subscribe(agenciesState => this.agencies = agenciesState.agencies);
   }
-
-  /*
-  private observeLaunchesLists() {
-    this.global
-      .select$(GlobalSlideTypes.launches)
-      .subscribe(launches => (this.launches = launches));
-    this.global
-      .select$(GlobalSlideTypes.launchStatuses)
-      .subscribe(statuses => (this.launchStatus = statuses));
-    this.global
-      .select$(GlobalSlideTypes.agencies)
-      .subscribe(agencies => (this.agencies = agencies));
-    this.global
-      .select$(GlobalSlideTypes.missionTypes)
-      .subscribe(missionTypes => (this.missionTypes = missionTypes));
-  }*/
 
   onSearch = (p) => {
     console.log("Search by Status:" + (p.statusFilter? p.statusFilter.name : "none") + 

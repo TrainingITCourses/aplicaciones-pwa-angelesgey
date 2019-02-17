@@ -3,12 +3,6 @@ import LaunchesJson from '../assets/data/launches.json';
 import LaunchStatusJson from '../assets/data/launchstatus.json';
 import AgenciesJson from '../assets/data/agencies.json';
 import MissionTypesJson from '../assets/data/missiontypes.json';
-import { GlobalStoreService } from './store/global-store.service';
-import { Launch } from './store/models/launch';
-import { Agency } from './store/models/agency';
-import { Mission } from './store/models/mission';
-import { Status } from './store/models/status';
-import { LoadLaunches, LoadLaunchStatuses, LoadAgencies, LoadMissionTypes } from './store/global-store.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +14,7 @@ export class DataService {
   private agenciesKey = 'agencies';
   private missionTypesKey = 'missionTypes';
 
-  constructor(private globalStore : GlobalStoreService) { }
+  constructor() { }
 
   /* 
    * Obtiene los launches del fichero JSON si no estan todavia almacenados en local
@@ -30,12 +24,10 @@ export class DataService {
   public getLaunches = () => {
     const localLaunches = localStorage.getItem(this.launchesKey);
     if(localLaunches) {
-      //this.globalStore.dispatch(new LoadLaunches(JSON.parse(localLaunches)));
       return JSON.parse(localLaunches);
     } else {
       const launches = LaunchesJson.launches;
       localStorage.setItem(this.launchesKey, JSON.stringify(launches));
-      //this.globalStore.dispatch(new LoadLaunches(launches));
       return launches;
     }
   }
@@ -49,12 +41,10 @@ export class DataService {
     const localLaunchStatuses = localStorage.getItem(this.launchStatusesKey);
     console.log("localLaunchStatuses " + localLaunchStatuses);
     if(localLaunchStatuses) {
-      //this.globalStore.dispatch(new LoadLaunchStatuses(JSON.parse(localLaunchStatuses)));
       return JSON.parse(localLaunchStatuses);
     } else {
       const launchStatuses = LaunchStatusJson.types;
       localStorage.setItem(this.launchStatusesKey, JSON.stringify(launchStatuses));
-      //this.globalStore.dispatch(new LoadLaunchStatuses(launchStatuses));
       return launchStatuses;
     }
   }
@@ -68,12 +58,10 @@ export class DataService {
     const localAgencies = localStorage.getItem(this.agenciesKey);
     console.log("localAgencies " + localAgencies);
     if(localAgencies) {
-      //this.globalStore.dispatch(new LoadAgencies(JSON.parse(localAgencies)));
       return JSON.parse(localAgencies);
     } else {
       const agencies = AgenciesJson.agencies;
       localStorage.setItem(this.agenciesKey, JSON.stringify(agencies));
-      //this.globalStore.dispatch(new LoadAgencies(agencies));
       return agencies;
     }
   }
@@ -87,12 +75,10 @@ export class DataService {
     const localMissionTypes = localStorage.getItem(this.missionTypesKey);
     console.log("localMissionTypes " + localMissionTypes);
     if(localMissionTypes) {
-      //this.globalStore.dispatch(new LoadMissionTypes(JSON.parse(localMissionTypes)));
       return JSON.parse(localMissionTypes);
     } else {
       const missions = MissionTypesJson.types;
       localStorage.setItem(this.missionTypesKey, JSON.stringify(missions));
-      //this.globalStore.dispatch(new LoadMissionTypes(missions));
       return missions;
     }
   }
