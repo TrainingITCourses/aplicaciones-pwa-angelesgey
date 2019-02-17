@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { DataService } from 'src/app/data.service';
-import { LaunchActionTypes, LaunchesLoaded } from './launch.actions';
+import { LaunchActionTypes, LaunchesLoaded, SearchLaunches } from './launch.actions';
 import { mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
@@ -15,7 +15,14 @@ export class LaunchEffects {
       return of(new LaunchesLoaded(launches));
     })
   );
+
+  @Effect()
+  public search$ = this.actions$.pipe(ofType(LaunchActionTypes.SearchLaunches),
+    mergeMap((action: SearchLaunches) => {
+      const searchResult = this.dataService.search(action.payload);
+      return of(new LaunchesLoaded(searchResult));
+    })
+  );
   
   constructor(private actions$: Actions, private dataService: DataService) {}
-
 }

@@ -82,4 +82,51 @@ export class DataService {
       return missions;
     }
   }
+
+  public search = (p) => {
+    console.log("Search by Status:" + (p.statusFilter? p.statusFilter.name : "none") + 
+      " - Mission: " + (p.missionFilter ? p.missionFilter.name : "none") + 
+      " - Agency: " + (p.agencyFilter ? p.agencyFilter.name : "none"));
+    
+    let launchesResult = this.getLaunches();
+
+    if(p.statusFilter != undefined) {
+      launchesResult = this.searchByStatus(p.statusFilter, launchesResult);
+    }
+    if(p.missionFilter != undefined) {
+      launchesResult = this.searchByMission(p.missionFilter, launchesResult);
+    }
+
+    if(p.agencyFilter != undefined) {
+      launchesResult = this.searchByAgency(p.agencyFilter, launchesResult);
+    }
+    return launchesResult;
+
+  }
+
+  searchByStatus = (statusFilter, array) => {
+    return array.filter(
+          launch => launch.status === statusFilter.id );
+  }
+
+  searchByMission = (missionFilter, array) => {
+    return array.filter(
+        launch => {
+          return launch.missions.some(mission => (mission.id === missionFilter.id))
+        }        
+    )
+  }
+
+  searchByAgency = (agencyFilter, array) => {
+    return array.filter(
+        launch => {
+          return launch.missions.some(
+            mission => (mission.agencies != undefined) && (mission.agencies.some(
+              agency => agency.id === agencyFilter.id
+            ))
+          )
+        }
+    )
+  }
+
 }
