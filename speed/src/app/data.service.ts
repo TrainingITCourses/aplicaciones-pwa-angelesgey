@@ -30,11 +30,13 @@ export class DataService {
   public getLaunches = () => {
     const localLaunches = localStorage.getItem(this.launchesKey);
     if(localLaunches) {
-      this.globalStore.dispatch(new LoadLaunches(JSON.parse(localLaunches)));
+      //this.globalStore.dispatch(new LoadLaunches(JSON.parse(localLaunches)));
+      return JSON.parse(localLaunches);
     } else {
       const launches = LaunchesJson.launches;
       localStorage.setItem(this.launchesKey, JSON.stringify(launches));
-      this.globalStore.dispatch(new LoadLaunches(launches));
+      //this.globalStore.dispatch(new LoadLaunches(launches));
+      return launches;
     }
   }
 
@@ -47,11 +49,13 @@ export class DataService {
     const localLaunchStatuses = localStorage.getItem(this.launchStatusesKey);
     console.log("localLaunchStatuses " + localLaunchStatuses);
     if(localLaunchStatuses) {
-      this.globalStore.dispatch(new LoadLaunchStatuses(JSON.parse(localLaunchStatuses)));
+      //this.globalStore.dispatch(new LoadLaunchStatuses(JSON.parse(localLaunchStatuses)));
+      return JSON.parse(localLaunchStatuses);
     } else {
       const launchStatuses = LaunchStatusJson.types;
       localStorage.setItem(this.launchStatusesKey, JSON.stringify(launchStatuses));
-      this.globalStore.dispatch(new LoadLaunchStatuses(launchStatuses));
+      //this.globalStore.dispatch(new LoadLaunchStatuses(launchStatuses));
+      return launchStatuses;
     }
   }
 
@@ -64,11 +68,13 @@ export class DataService {
     const localAgencies = localStorage.getItem(this.agenciesKey);
     console.log("localAgencies " + localAgencies);
     if(localAgencies) {
-      this.globalStore.dispatch(new LoadAgencies(JSON.parse(localAgencies)));
+      //this.globalStore.dispatch(new LoadAgencies(JSON.parse(localAgencies)));
+      return JSON.parse(localAgencies);
     } else {
       const agencies = AgenciesJson.agencies;
       localStorage.setItem(this.agenciesKey, JSON.stringify(agencies));
-      this.globalStore.dispatch(new LoadAgencies(agencies));
+      //this.globalStore.dispatch(new LoadAgencies(agencies));
+      return agencies;
     }
   }
 
@@ -81,11 +87,13 @@ export class DataService {
     const localMissionTypes = localStorage.getItem(this.missionTypesKey);
     console.log("localMissionTypes " + localMissionTypes);
     if(localMissionTypes) {
-      this.globalStore.dispatch(new LoadMissionTypes(JSON.parse(localMissionTypes)));
+      //this.globalStore.dispatch(new LoadMissionTypes(JSON.parse(localMissionTypes)));
+      return JSON.parse(localMissionTypes);
     } else {
       const missions = MissionTypesJson.types;
       localStorage.setItem(this.missionTypesKey, JSON.stringify(missions));
-      this.globalStore.dispatch(new LoadMissionTypes(missions));
+      //this.globalStore.dispatch(new LoadMissionTypes(missions));
+      return missions;
     }
   }
 }

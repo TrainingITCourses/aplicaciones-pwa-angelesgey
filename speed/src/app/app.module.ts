@@ -23,6 +23,11 @@ import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
+import { LaunchEffects } from './reducers/launch/launch.effects';
+import { StatusEffects } from './reducers/status/status.effects';
+import { MissionEffects } from './reducers/mission/mission.effects';
+import { AgencyEffects } from './reducers/agency/agency.effects';
 
 
 @NgModule({
@@ -46,7 +51,8 @@ import { environment } from '../environments/environment';
     MatSelectModule,
     MatCardModule,
     StoreModule.forRoot(reducers, { metaReducers }),
-    !environment.production ? StoreDevtoolsModule.instrument() : []
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    EffectsModule.forRoot([LaunchEffects, StatusEffects, MissionEffects, AgencyEffects])
   ],
   providers: [],
   bootstrap: [AppComponent]

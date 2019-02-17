@@ -4,7 +4,13 @@ import { Launch } from '../store/models/launch';
 import { Agency } from '../store/models/agency';
 import { Mission } from '../store/models/mission';
 import { Status } from '../store/models/status';
-import { GlobalStoreService, GlobalSlideTypes } from '../store/global-store.service';
+import { Store } from '@ngrx/store';
+import { State } from '../reducers';
+import { LoadLaunches } from '../reducers/launch/launch.actions';
+import { LoadMissions } from '../reducers/mission/mission.actions';
+import { LoadAgencies } from '../reducers/agency/agency.actions';
+import { LoadStatuses } from '../reducers/status/status.actions';
+//import { GlobalStoreService, GlobalSlideTypes } from '../store/global-store.service';
 
 @Component({
   selector: 'app-search',
@@ -18,8 +24,9 @@ export class SearchComponent implements OnInit {
   public missionTypes: Mission[];
   public launchStatus: Status[];
   public launchesResult: Launch[];
+  //public launches: LaunchState;
 
-  constructor(private global : GlobalStoreService, private dataService: DataService) { }
+  constructor(private store: Store<State>) { }
 
   ngOnInit() {  
     // se subscribe a los cambios en las listas
@@ -29,13 +36,32 @@ export class SearchComponent implements OnInit {
   }
 
   private loadData() {
+    this.store.dispatch(new LoadLaunches());
+    this.store.dispatch(new LoadStatuses());
+    this.store.dispatch(new LoadMissions());
+    this.store.dispatch(new LoadAgencies());
+  }
+
+  /*
+  private loadData() {
     this.dataService.getLaunches();
     this.dataService.getLaunchStatuses();
     this.dataService.getAgencies();
     this.dataService.getMissionTypes();
-    this.launchesResult = this.global.getSnapShot(GlobalSlideTypes.launches);
+    this.launchesResult = this.store
+  }*/
+
+  private observeLaunchesLists() {
+    this.store.select('launch').subscribe(launchState => {
+      this.launches = launchState.launches;
+      this.launchesResult = launchState.launches;      
+    });
+    this.store.select('mission').subscribe(missionState => this.missionTypes = missionState.missions);
+    this.store.select('status').subscribe(statusState => this.launchStatus = statusState.statuses);
+    this.store.select('agency').subscribe(agenciesState => this.agencies = agenciesState.agencies);
   }
 
+  /*
   private observeLaunchesLists() {
     this.global
       .select$(GlobalSlideTypes.launches)
@@ -49,7 +75,7 @@ export class SearchComponent implements OnInit {
     this.global
       .select$(GlobalSlideTypes.missionTypes)
       .subscribe(missionTypes => (this.missionTypes = missionTypes));
-  }
+  }*/
 
   onSearch = (p) => {
     console.log("Search by Status:" + (p.statusFilter? p.statusFilter.name : "none") + 
