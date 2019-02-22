@@ -17,7 +17,8 @@ import {
   MatSidenavModule,
   MatToolbarModule,
   MatSelectModule,
-  MatCardModule
+  MatCardModule,
+  MatDialogModule
 } from '@angular/material';
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './reducers';
@@ -28,14 +29,18 @@ import { LaunchEffects } from './reducers/launch/launch.effects';
 import { StatusEffects } from './reducers/status/status.effects';
 import { MissionEffects } from './reducers/mission/mission.effects';
 import { AgencyEffects } from './reducers/agency/agency.effects';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
+import { HttpClientModule } from '@angular/common/http';
+import { DialogComponent } from './dialog/dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchComponent,
     SearchResultComponent,
-    SearchFilterComponent
+    SearchFilterComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,
@@ -50,10 +55,14 @@ import { AgencyEffects } from './reducers/agency/agency.effects';
     MatToolbarModule,
     MatSelectModule,
     MatCardModule,
+    MatDialogModule,
+    HttpClientModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([LaunchEffects, StatusEffects, MissionEffects, AgencyEffects])
+    EffectsModule.forRoot([LaunchEffects, StatusEffects, MissionEffects, AgencyEffects]),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
+  entryComponents: [DialogComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

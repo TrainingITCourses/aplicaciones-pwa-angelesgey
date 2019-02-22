@@ -2,8 +2,7 @@ import { Action } from '@ngrx/store';
 
 export enum LaunchActionTypes {
   LoadLaunches = '[Launch] Load Launches',
-  LaunchesLoaded = '[Launch] Launches loaded',
-  SearchLaunches = '[Launch] Search Launches'
+  LaunchesLoaded = '[Launch] Launches loaded'
 }
 
 export class LoadLaunches implements Action {
@@ -15,10 +14,4 @@ export class LaunchesLoaded implements Action {
   constructor(readonly payload: any[]) {}
 }
 
-export class SearchLaunches implements Action {
-  readonly type = LaunchActionTypes.SearchLaunches;  
-  constructor(readonly payload: any[]) {}
-}
-
-
-export type LaunchActions = LoadLaunches | LaunchesLoaded | SearchLaunches;
+export type LaunchActions = LoadLaunches | LaunchesLoaded;
