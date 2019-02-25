@@ -5,6 +5,12 @@
     [agencies]="agencies" 
     (search) = "onSearch($event)"
     ></app-search-filter>
-  <app-search-result 
+ 
+  <app-search-result *ngIf="!loading; else showloading"
     [launches]="launchesResult" ></app-search-result>
+
+  <ng-template #showloading>
+    <div class="loader"><mat-spinner mode="indeterminate"></mat-spinner></div>
+  </ng-template>
+
 </p>

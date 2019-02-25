@@ -22,6 +22,7 @@ export class SearchComponent implements OnInit {
   public missionTypes: Mission[];
   public launchStatus: Status[];
   public launchesResult: Launch[];
+  public loading: Boolean;
 
   constructor(private store: Store<State>) { }
 
@@ -29,7 +30,8 @@ export class SearchComponent implements OnInit {
     // se subscribe a los cambios en las listas
     this.observeLaunchesLists();
     // se cargan los filtros de busqueda
-    this.loadData();       
+    this.loading = true;
+    this.loadData();
   }
 
   private loadData() {
@@ -40,9 +42,10 @@ export class SearchComponent implements OnInit {
   }
 
   private observeLaunchesLists() {
-    this.store.select('launch').subscribe(launchState => {
+    this.store.select('launch').subscribe(launchState => {      
       this.launches = launchState.launches;
       this.launchesResult = launchState.launches;
+      this.loading = launchState.loading;
     });
     this.store.select('mission').subscribe(missionState => this.missionTypes = missionState.missions);
     this.store.select('status').subscribe(statusState => this.launchStatus = statusState.statuses);
